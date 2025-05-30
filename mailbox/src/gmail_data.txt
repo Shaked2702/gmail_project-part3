@@ -1,0 +1,13 @@
+Shared file between team members to store Gmail definitions or missing data:
+
+***Label:***
+    name: can't use same name twice
+    behavior: puts above the message- "The label name you have chosen already exists. Please try another name:"
+
+    length: 1 to 225 (include)
+    if length is 0 the "accept" button isn't clickable
+    if length is 226 and more puts above the message- "The name is too long. Please try another name:"
+
+    parent-label: behavior "tree" like, each label can be stored inside parent-label
+
+    color: missing color field at the moment
