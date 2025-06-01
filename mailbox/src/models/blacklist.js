@@ -1,7 +1,7 @@
 const net = require('net'); // Import net module for TCP socket communication
 
 const HOST = '127.0.0.1';
-const PORT = 8000;
+const PORT = 9160;
 
 // Function to create a TCP socket connection to an external server
 // Note: Callback function is a lambda function handles add/delete/check.

@@ -21,9 +21,9 @@ exports.createUser = async (req, res) => {
     }
 
     // Email format check
-    const email_regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const email_regex = /^[^\s@]{6,30}@[^\s@]+\.[^\s@]+$/;
     if (!email_regex.test(email)) {
-        return res.status(400).json({  error: 'Email format is invalid' })
+        return res.status(400).json({  error: 'Email format is invalid, most be 6-30 long.' })
     }
 
     // Check if email already exists

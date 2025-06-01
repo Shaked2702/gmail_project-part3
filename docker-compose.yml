@@ -1,28 +1,37 @@
 # This docker-compose create a Blacklist server and Mailbox server.
 services:
-  server_container:
+  blacklist_server:
     build:
       context: ./blacklist
       dockerfile: Dockerfile
-    image: Blacklist_Server
+    image: blacklist_server_image
     container_name: blacklist_server
-    networks:
-      - my_net
+    network_mode: host
     stdin_open: true
     tty: true
 
-  client_container:
+  mailbox_server:
     build:
       context: ./mailbox
       dockerfile: Dockerfile
-    image: Mailbox_Server
+    image: mailbox_server_image
     container_name: mailbox_server
-    networks:
-      - my_net
+    network_mode: host
     stdin_open: true
     tty: true
 
-networks:
-  my_net:
-    name: my_net
-    driver: bridge
+  mailbox_client:
+    build:
+      context: ./mailbox
+      dockerfile: Dockerfile2
+    image: mailbox_client_image
+    container_name: mailbox_client
+    network_mode: host
+    stdin_open: true
+    tty: true
+
+# NOT IN USE ANYMORE - USING HOST
+#networks: 
+#  my_net:
+#    name: my_net
+#    driver: bridge

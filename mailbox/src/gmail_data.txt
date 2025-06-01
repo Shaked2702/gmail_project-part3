@@ -1,4 +1,4 @@
-Shared file between team members to store Gmail definitions or missing data:
+Shared file between team members to store Gmail definitions or missing data in use for later tasks:
 
 ***Label:***
     name: can't use same name twice
@@ -11,3 +11,8 @@ Shared file between team members to store Gmail definitions or missing data:
     parent-label: behavior "tree" like, each label can be stored inside parent-label
 
     color: missing color field at the moment
+
+
+***Email:***
+Gmail allow sending email to any given mail (unless invalid characters like: ",:' etc...) -
+If mail hasn't found a receive contact, it returns a mail in inbox for each invalid receive email.

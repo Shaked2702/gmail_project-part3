@@ -162,8 +162,8 @@ exports.getMailById = (req, res) => {
     if (!mail) {
         return res.status(404).json({ error: 'Mail not found' });
     }
-    // Check if mail belongs to the user
-   if (mail.sender_id !== user_id && !mail.receivers_emails.includes(user.email) ) {
+    // Check if mail belongs to the user - There is a copy for user if matching
+   if (mail.user_id !== user_id) {
         return res.status(403).json({ error: 'Mail does not belong to the user' });
     }
     // Return the mail
@@ -196,7 +196,7 @@ exports.updateMailById = async (req, res) => {
   }
 
   // Check if mail belongs to the user
-   if (mail.sender_id !== user_id && !mail.receivers_emails.includes(user.email) ) {
+   if (mail.user_id !== user_id) {
         return res.status(403).json({ error: 'Mail does not belong to the user' });
     }
 
@@ -236,7 +236,7 @@ exports.updateMailById = async (req, res) => {
   }
 
     // Continue only if URL check passed
-// Validate receivers_emails
+// Validate receivers_emails // Remainder - To change behavior in part 4 - No wrong receiver blocking ////////
     const invalidEmails = [];
     const receivers = [];
 
@@ -295,7 +295,7 @@ exports.deleteMailById = (req, res) => {
     }
 
   // Check if mail belongs to the user
-    if (mail.sender_id !== user_id && !mail.receivers_emails.includes(user.email) ) {
+    if (mail.user_id !== user_id) {
         return res.status(403).json({ error: 'Mail does not belong to the user' });
     }
 

@@ -1,0 +1,508 @@
+Here are few command examples and expected outputs.
+Note:
+The output is expected for chronological usage by order of commands (Starting with 'A').
+The commands are with curl to api.
+
+--------------------------------------------------------------------------------------    
+------------------------------------------Users---------------------------------------  
+--------------------------------------------------------------------------------------    
+*A) Create user:*  
+curl -i -X POST http://localhost:3000/api/users \
+  -H "Content-Type: application/json" \
+  -d '{
+    "first_name": "Alice",
+    "last_name": "Smith",
+    "birthDay": "1999-05-15",
+    "gender": "female",
+    "email": "alice.smith@example.com",
+    "password": "SecurePass123!",
+    "phone_number": "0523456789"
+  }'   
+
+*Response*:  
+HTTP/1.1 201 Created
+X-Powered-By: Express
+Location: /api/users/1
+Date: Sat, 31 May 2025 13:38:59 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+Content-Length: 0  
+  
+  
+*Create second user:*  
+curl -i -X POST http://localhost:3000/api/users \
+  -H "Content-Type: application/json" \
+  -d '{
+    "first_name": "Bob",
+    "last_name": "Bob",
+    "birthDay": "1999-05-15",
+    "gender": "female",
+    "email": "bobbob@example.com",
+    "password": "SecurePass123%",
+    "phone_number": "0523456789"
+  }'
+  
+*Response:*  
+HTTP/1.1 201 Created
+X-Powered-By: Express
+Location: /api/users/2
+Date: Sat, 31 May 2025 13:40:11 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+Content-Length: 0  
+  
+  
+*Create third user:*  
+curl -i -X POST http://localhost:3000/api/users \
+  -H "Content-Type: application/json" \
+  -d '{
+    "first_name": "Eliran",
+    "last_name": "Eliran",
+    "birthDay": "1999-05-15",
+    "gender": "female",
+    "email": "FFTFFT@example.com",
+    "password": "SecurePass123%",
+    "phone_number": "0523456789"
+  }'  
+    
+*Response:*  
+HTTP/1.1 201 Created
+X-Powered-By: Express
+Location: /api/users/3
+Date: Sat, 31 May 2025 13:43:15 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+Content-Length: 0  
+  
+  
+*B) Get user (Notice no password returned):*    
+curl -i -X GET http://localhost:3000/api/users/1  
+  
+*Response:*  
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Content-Type: application/json; charset=utf-8
+Content-Length: 166
+ETag: W/"a6-26Psc/zBEVIds37YXbSYS2Ns9Go"
+Date: Sat, 31 May 2025 13:57:22 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+{"id":1,"first_name":"Alice","last_name":"Smith","birthDay":"1999-05-15","gender":"female","email":"alice.smith@example.com","phone_number":"0523456789","image":null}  
+  
+  
+--------------------------------------------------------------------------------------    
+-----------------------------------------Tokens---------------------------------------  
+--------------------------------------------------------------------------------------    
+*C) Create token (Notice return value as "token" is user_id by task guidance):*  
+curl -i -X POST http://localhost:3000/api/tokens \
+  -H "Content-Type: application/json" \
+  -d '{
+    "email": "alice.smith@example.com",
+    "password": "SecurePass123!"
+  }'  
+
+*Response*:  
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Content-Type: application/json; charset=utf-8
+Content-Length: 13
+ETag: W/"d-JIUH0uCrPduuFSejOgtPO/FcqaE"
+Date: Sat, 31 May 2025 14:23:32 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5  
+  
+{"token":"1"}  
+  
+  
+*D) Create token with wrong password:*  
+curl -i -X POST http://localhost:3000/api/tokens \
+  -H "Content-Type: application/json" \
+  -d '{
+    "email": "alice.smith@example.com",
+    "password": "WrongPassword123!"
+  }'   
+  
+*Response*:  
+HTTP/1.1 400 Bad Request
+X-Powered-By: Express
+Content-Type: application/json; charset=utf-8
+Content-Length: 42
+ETag: W/"2a-jHqp2PJ64U7PVRfoYAkXInFhrAQ"
+Date: Sat, 31 May 2025 14:26:26 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5  
+  
+{"error":"Email or password is incorrect"}  
+  
+  
+--------------------------------------------------------------------------------------    
+-----------------------------------------Labels---------------------------------------  
+--------------------------------------------------------------------------------------    
+*E) Create label:*  
+curl -i -X POST http://localhost:3000/api/labels \
+  -H "Content-Type: application/json" \
+  -H "user_id: 1" \
+  -d '{
+    "name": "urgent"
+  }'  
+    
+*Response:*  
+HTTP/1.1 201 Created
+X-Powered-By: Express
+Location: /api/labels/1
+Date: Sat, 31 May 2025 13:46:45 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+Content-Length: 0  
+  
+
+*F) Create another label:*  
+curl -i -X POST http://localhost:3000/api/labels \
+  -H "Content-Type: application/json" \
+  -H "user_id: 1" \
+  -d '{
+    "name": "fft"
+  }'  
+  
+*Response:*  
+HTTP/1.1 201 Created
+X-Powered-By: Express
+Location: /api/labels/2
+Date: Sat, 31 May 2025 13:51:27 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+Content-Length: 0  
+  
+  
+*G) Get labels for user "1":*  
+curl -i -X GET http://localhost:3000/api/labels \
+  -H "user_id: 1"  
+  
+*Response:*  
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Content-Type: application/json; charset=utf-8
+Content-Length: 48
+ETag: W/"30-6PGygMYeOfjicnX0ZzSBmeDUFoA"
+Date: Sat, 31 May 2025 13:54:09 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5  
+  
+[{"id":1,"name":"urgent"},{"id":2,"name":"fft"}]  
+  
+  
+*H) Get label for id "2" (belongs to user id "1"):*  
+curl -i -X GET http://localhost:3000/api/labels/2 \
+  -H "user_id: 1"  
+  
+*Respone:*  
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Content-Type: application/json; charset=utf-8
+Content-Length: 21
+ETag: W/"15-ys9LOxteIGcE3jU/i9WdUIDciIk"
+Date: Sat, 31 May 2025 14:01:20 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+  
+{"id":2,"name":"fft"}  
+  
+  
+*H) Get label for id "2" - when no matching user id sent (user id 2 instead of 1) - Forbidden:*  
+curl -i -X GET http://localhost:3000/api/labels/2 \
+  -H "user_id: 2"  
+  
+*Respone:*  
+HTTP/1.1 403 Forbidden
+X-Powered-By: Express
+Content-Type: application/json; charset=utf-8
+Content-Length: 45
+ETag: W/"2d-8fDIq71MCtvrzBwagsxtignc7Bw"
+Date: Sat, 31 May 2025 14:02:56 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5  
+  
+{"error":"Label does not belong to the user"}  
+  
+  
+*I) Update label:*  
+curl -i -X PATCH http://localhost:3000/api/labels/2 \
+  -H "Content-Type: application/json" \
+  -H "user_id: 1" \
+  -d '{ "name": "high-priority" }'  
+  
+*Response:*  
+HTTP/1.1 204 No Content
+X-Powered-By: Express
+Date: Sat, 31 May 2025 14:04:47 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5  
+  
+*Another Get to assure modified (Running command listed as 'H'):*  
+{"id":2,"name":"high-priority"}  
+  
+  
+*J) Delete label:*  
+curl -i -X DELETE http://localhost:3000/api/labels/2 \
+  -H "user_id: 1"  
+  
+*Response:*  
+HTTP/1.1 204 No Content
+X-Powered-By: Express
+Date: Sat, 31 May 2025 14:07:55 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5  
+  
+*Another Get to assure deleted (Running command listed as 'H'):*  
+HTTP/1.1 404 Not Found
+X-Powered-By: Express
+Content-Type: application/json; charset=utf-8
+Content-Length: 27
+ETag: W/"1b-s8gRgT0pAVphI512pGVUh5Lwo5w"
+Date: Sat, 31 May 2025 14:08:50 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5  
+  
+{"error":"Label not found"}  
+  
+  
+--------------------------------------------------------------------------------------    
+--------------------------------------Blacklist---------------------------------------  
+--------------------------------------------------------------------------------------    
+*K) Add Blacklisted Url (Notice id=url, otherwise there is no meaning to the bloom filter server):*  
+curl -i -X POST http://localhost:3000/api/blacklist \
+  -H "Content-Type: application/json" \
+  -d '{ "id": "www.example.com" }'  
+  
+*Response:*  
+HTTP/1.1 201 Created
+X-Powered-By: Express
+Location: /api/blacklist/www.example.com
+Date: Sat, 31 May 2025 14:13:02 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+Content-Length: 0  
+    
+  
+*L) Delete Blacklisted Url:*  
+curl -i -X DELETE http://localhost:3000/api/blacklist/www.example.com  
+(Notice if you want to delete a special characters in url given you should use encoding into url format:
+.../api/blacklist/www.example33.com%2Fexample%2Ffft instead of .../api/blacklist/www.example33.com/example/fft)  
+  
+*Response:*  
+HTTP/1.1 204 No Content
+X-Powered-By: Express
+Date: Sat, 31 May 2025 14:16:00 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5  
+    
+  
+*M) Recreated Blacklist on: www.example.com - for mail blacklist checks - using command 'K'*  
+  
+  
+--------------------------------------------------------------------------------------    
+----------------------------------------Mails-----------------------------------------  
+--------------------------------------------------------------------------------------    
+*N) Create new mail for user id "1" (sender):*  
+curl -i -X POST http://localhost:3000/api/mails \
+  -H "Content-Type: application/json" \
+  -H "user_id: 1" \
+  -d '{
+    "receivers_emails": ["bobbob@example.com"],
+    "subject": "Hello Bob",
+    "content": "This is a test email for Bob."
+  }'  
+
+*Response:*  
+HTTP/1.1 201 Created
+X-Powered-By: Express
+Location: /api/mails/2
+Date: Sun, 01 Jun 2025 08:25:58 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+Content-Length: 0  
+*(Notice created with mail_id:2 via Location - Reason: 2 copies for sender and receiver)*  
+  
+  
+*Create another new mail:*  
+curl -i -X POST http://localhost:3000/api/mails \
+  -H "Content-Type: application/json" \
+  -H "user_id: 1" \
+  -d '{
+    "receivers_emails": ["bobbob@example.com"],
+    "subject": "Hello World!",
+    "content": "This is a test email for the World of Hello."
+  }'  
+  
+*Response:*  
+HTTP/1.1 201 Created
+X-Powered-By: Express
+Location: /api/mails/4
+Date: Sun, 01 Jun 2025 08:26:22 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+Content-Length: 0  
+  
+  
+*O) Get mails for user id "1":*  
+curl -i -X GET http://localhost:3000/api/mails \
+  -H "user_id: 1"  
+  
+*Response:*  
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Content-Type: application/json; charset=utf-8
+Content-Length: 525
+ETag: W/"20d-x0zbxnuKfO93+NZb+g582qeyfCA"
+Date: Sun, 01 Jun 2025 08:26:36 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5  
+  
+[{"id":4,"user_id":1,"sender_email":"alice.smith@example.com","receivers_emails":["bobbob@example.com"],"subject":"Hello World!","body":"This is a test email for the World of Hello.","created_at":"2025-06-01T08:26:22.561Z","labels":[],"is_opened":true,"is_starred":false},{"id":2,"user_id":1,"sender_email":"alice.smith@example.com","receivers_emails":["bobbob@example.com"],"subject":"Hello Bob","body":"This is a test email for Bob.","created_at":"2025-06-01T08:25:58.211Z","labels":[],"is_opened":true,"is_starred":false}]  
+*(You can see two mails created at total with id:2, id:4 by decreasing id&time order)  
+  
+
+*P) Get mails by mail id "2" (for user id "1" - the "sender" - alice):*  
+curl -i -X GET http://localhost:3000/api/mails/2 \
+  -H "user_id: 1"
+  
+*Response:*  
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Content-Type: application/json; charset=utf-8
+Content-Length: 252
+ETag: W/"fc-p/ZkLXLf+qvZznznMWotGMsodIs"
+Date: Sun, 01 Jun 2025 08:27:11 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5  
+  
+{"id":2,"user_id":1,"sender_email":"alice.smith@example.com","receivers_emails":["bobbob@example.com"],"subject":"Hello Bob","body":"This is a test email for Bob.","created_at":"2025-06-01T08:25:58.211Z","labels":[],"is_opened":true,"is_starred":false}  
+    
+  
+
+*Q) Check mail has received in receiver mailbox (Bob id=2):*  
+(Get all mails for user id "2")    
+curl -i -X GET http://localhost:3000/api/mails \
+  -H "user_id: 2"  
+  
+*Response:*  
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Content-Type: application/json; charset=utf-8
+Content-Length: 527
+ETag: W/"20f-6mHYnq6Nw4Zc+MoIVpxlPiWev3o"
+Date: Sun, 01 Jun 2025 08:28:27 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5  
+  
+[{"id":3,"user_id":2,"sender_email":"alice.smith@example.com","receivers_emails":["bobbob@example.com"],"subject":"Hello World!","body":"This is a test email for the World of Hello.","created_at":"2025-06-01T08:26:22.561Z","labels":[],"is_opened":false,"is_starred":false},{"id":1,"user_id":2,"sender_email":"alice.smith@example.com","receivers_emails":["bobbob@example.com"],"subject":"Hello Bob","body":"This is a test email for Bob.","created_at":"2025-06-01T08:25:58.211Z","labels":[],"is_opened":false,"is_starred":false}]  
+  
+  
+*R) Check mail has received in receiver mailbox by id:*  
+(In previous command we have seen mail_id:1 in receiver mailbox - user_id of Bob is 2)  
+curl -i -X GET http://localhost:3000/api/mails/1 \
+  -H "user_id: 2"  
+  
+*Response:*  
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Content-Type: application/json; charset=utf-8
+Content-Length: 253
+ETag: W/"fd-kRYFagVr8lqMerTrtbA1z25x/BU"
+Date: Sun, 01 Jun 2025 08:31:27 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5  
+  
+{"id":1,"user_id":2,"sender_email":"alice.smith@example.com","receivers_emails":["bobbob@example.com"],"subject":"Hello Bob","body":"This is a test email for Bob.","created_at":"2025-06-01T08:25:58.211Z","labels":[],"is_opened":false,"is_starred":false}  
+  
+  
+*S) Create mail with blacklisted url (www.example.com - blacklisted in step 'M'):*  
+curl -i -X POST http://localhost:3000/api/mails \
+  -H "Content-Type: application/json" \
+  -H "user_id: 1" \
+  -d '{
+    "receivers_emails": ["bob@example.com"],
+    "subject": "Hello Bob",
+    "content": "This is a test email ya ya ya www.example.com for www.example4.com Bob. www.example8.com www.example11.com    Visit www.example2.com  for more info ya ya ya, www.example5.com"
+  }'  
+
+*Response:*  
+HTTP/1.1 400 Bad Request
+X-Powered-By: Express
+Content-Type: application/json; charset=utf-8
+Content-Length: 74
+ETag: W/"4a-KZhKrcXP6aJO0tjjtTSeiVcG9r4"
+Date: Sun, 01 Jun 2025 08:33:06 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+{"error":"Email contains blacklisted URL","blacklisted":"www.example.com"}  
+    
+  
+*T) Update mail by mail id (in this example updating subject only):*  
+curl -i -X PATCH http://localhost:3000/api/mails/3 \
+  -H "Content-Type: application/json" \
+  -H "user_id: 2" \
+  -d '{
+    "receivers_emails": ["bobbob@example.com"],
+    "subject": "Updated Subject"
+}'  
+  
+*Response:*  
+HTTP/1.1 204 No Content
+X-Powered-By: Express
+Date: Sun, 01 Jun 2025 08:50:22 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5  
+
+
+*U) Check mail has updated in bob mailbox via GET:*  
+(In previous command we have updated mail_id:3 in Bob's mailbox - user_id:2)  
+curl -i -X GET http://localhost:3000/api/mails/3 \
+  -H "user_id: 2"  
+  
+*Response:*  
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Content-Type: application/json; charset=utf-8
+Content-Length: 230
+ETag: W/"e6-YT0wO+k8ILrxje82/ZPIojT+Ce4"
+Date: Sun, 01 Jun 2025 08:52:50 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5  
+  
+{"id":3,"user_id":2,"sender_email":"alice.smith@example.com","receivers_emails":["bobbob@example.com"],"subject":"Updated Subject","body":"","created_at":"2025-06-01T08:50:22.590Z","labels":[],"is_opened":false,"is_starred":false}  
+(As you can see Subject has updated - same way we can update contenct, etc...)  
+  
+  
+*V) Delete mail by mail id (matching user id is needed):*  
+curl -i -X DELETE http://localhost:3000/api/mails/3 \
+  -H "user_id: 2"  
+  
+*Response:*  
+HTTP/1.1 204 No Content
+X-Powered-By: Express
+Date: Sun, 01 Jun 2025 08:55:45 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5  
+  
+  
+--------------------------------------------------------------------------------------    
+----------------------------------------Query-----------------------------------------  
+--------------------------------------------------------------------------------------    
+*W) Make query for user mailbox (Search string match in subject/content/sender/receiver):*  
+curl -i -X GET http://localhost:3000/api/mails/search/Hello%20Bob \
+  -H "user_id: 1"  
+  
+*Response:*  
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Content-Type: application/json; charset=utf-8
+Content-Length: 254
+ETag: W/"fe-7ssZMQjwLQx1fadBEqnyEu+ZUIA"
+Date: Sun, 01 Jun 2025 08:56:34 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5  
+  
+[{"id":2,"user_id":1,"sender_email":"alice.smith@example.com","receivers_emails":["bobbob@example.com"],"subject":"Hello Bob","body":"This is a test email for Bob.","created_at":"2025-06-01T08:25:58.211Z","labels":[],"is_opened":true,"is_starred":false}]  

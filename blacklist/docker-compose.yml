@@ -1,4 +1,4 @@
-# This docker-compose meant to check the multi-threading capability of the server.
+# This docker-compose meant to check the multi-threading capability of the server - Not in use in final product.
 services:
   server_container:
     build:

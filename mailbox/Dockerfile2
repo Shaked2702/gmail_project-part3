@@ -1,4 +1,4 @@
-# Dockerfile for building and running the project NodeJS Mailbox server.
+# Dockerfile for building and running the project NodeJS Mailbox client.
 
 FROM node:latest
 
@@ -10,4 +10,4 @@ WORKDIR /usr/src/proj_ex3_mailbox/src
 RUN npm install
 # Notice that download of express and module is done here via package.json
 
-CMD ["node", "app.js"]
+CMD ["/usr/bin/bash"]

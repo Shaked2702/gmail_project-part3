@@ -196,7 +196,7 @@ exports.updateLabelById = (req, res) => {
 
 
 /*
-1)Create user: (invalid eliran updated - for now works)
+1)Create user:
 curl -i -X POST http://localhost:3000/api/users -H "Content-Type: application/json" -d '{
   "first_name": "Alice",
   "last_name": "Smith",

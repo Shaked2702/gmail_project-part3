@@ -14,10 +14,10 @@ set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
 
 # Create executable named ids_tests for IDataStructure tests file.
-add_executable(ids_tests DataStructureTest.cpp
- HashFunctions.cpp BloomFilter.cpp)
-target_link_libraries(ids_tests gtest_main)
-set_target_properties(ids_tests PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/../exe")
+#add_executable(ids_tests DataStructureTest.cpp
+# HashFunctions.cpp BloomFilter.cpp)
+#target_link_libraries(ids_tests gtest_main)
+#set_target_properties(ids_tests PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/../exe")
 
 # Create executable named io_tests for IO tests file.
 #add_executable(io_tests IOTest.cpp
